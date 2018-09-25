@@ -59,26 +59,39 @@ for eachline in root.getElementsByTagName("Review"):
 
 
 
-        result_rid.append(eachline.getAttribute("rid"))
-        result_id.append (each.getAttribute('id'))
-        result_text.append(each.childNodes[1].childNodes[0].data)
 
         if each.getElementsByTagName("Opinion") != []:
-            print(each.getElementsByTagName("Opinion")[0].getAttribute('category'))
-            print(each.getElementsByTagName("Opinion")[0].getAttribute('polarity'))
 
 
-            result_category_first.append(each.getElementsByTagName("Opinion")[0].getAttribute('category').split('#')[0])
-            result_category_second.append(each.getElementsByTagName("Opinion")[0].getAttribute('category').split('#')[1])
+            for item_index in range(len(each.getElementsByTagName("Opinion"))):
 
-            result_polarity.append(each.getElementsByTagName("Opinion")[0].getAttribute('polarity'))
+                print(each.getElementsByTagName("Opinion")[item_index].getAttribute('category'))
+                print(each.getElementsByTagName("Opinion")[item_index].getAttribute('polarity'))
 
-            result_target.append(each.getElementsByTagName("Opinion")[0].getAttribute('target'))
+                print(each.getElementsByTagName("Opinion")[item_index].getAttribute('target'))
 
-            result_from.append(each.getElementsByTagName("Opinion")[0].getAttribute('from'))
-            result_to.append(each.getElementsByTagName("Opinion")[0].getAttribute('to'))
+                result_rid.append(eachline.getAttribute("rid"))
+                result_id.append(each.getAttribute('id'))
+                result_text.append(each.childNodes[1].childNodes[0].data)
+
+
+
+                result_category_first.append(each.getElementsByTagName("Opinion")[item_index].getAttribute('category').split('#')[0])
+                result_category_second.append(each.getElementsByTagName("Opinion")[item_index].getAttribute('category').split('#')[1])
+
+                result_polarity.append(each.getElementsByTagName("Opinion")[item_index].getAttribute('polarity'))
+
+                result_target.append(each.getElementsByTagName("Opinion")[item_index].getAttribute('target'))
+
+                result_from.append(each.getElementsByTagName("Opinion")[item_index].getAttribute('from'))
+                result_to.append(each.getElementsByTagName("Opinion")[item_index].getAttribute('to'))
 
         else:
+            
+            result_rid.append(eachline.getAttribute("rid"))
+            result_id.append(each.getAttribute('id'))
+            result_text.append(each.childNodes[1].childNodes[0].data)
+
             result_category_first.append(None)
             result_category_second.append(None)
 
@@ -91,6 +104,6 @@ for eachline in root.getElementsByTagName("Review"):
 
 import pandas as pd
 
-result = pd.DataFrame({'rid':result_rid,'id':result_id,'text':result_text,'category_first':result_category_first,'category_second':result_category_second,'polarity':result_polarity,'from':result_from,'to':result_to})
+result = pd.DataFrame({'target':result_target,'rid':result_rid,'id':result_id,'text':result_text,'category_first':result_category_first,'category_second':result_category_second,'polarity':result_polarity,'from':result_from,'to':result_to})
 
 result.to_csv('result.csv')
